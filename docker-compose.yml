@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+  beacon-server:
+    build:
+      ./
+    restart: always
+    volumes:
+      - ../backend_server:/server
+    command: python manage.py
+    ports:
+      - 59003:59003
+    environment:
+      - APP_PORT=59003
+      - APP_HOST=0.0.0.0
+      - APP_CONFIG=config.TestConfig
+      - FLASK_APP=manage.py
