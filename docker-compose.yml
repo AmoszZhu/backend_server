@@ -15,3 +15,5 @@ services:
       - APP_HOST=0.0.0.0
       - APP_CONFIG=config.TestConfig
       - FLASK_APP=manage.py
+    extra_hosts:
+      - "beacon01.com:192.168.188.201"
