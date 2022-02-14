@@ -9,6 +9,7 @@
 from flask import current_app
 import jwt
 
+
 def generate_jwt(payload, expire, sercet=None):
     """
 
@@ -28,3 +29,20 @@ def generate_jwt(payload, expire, sercet=None):
     token = jwt.encode(payload=_payload, key=sercet, algorithm='HS256')
     return token
 
+
+def verify_token(token, sercet=None):
+    """
+
+    :param token:
+    :param sercet:
+    :return:
+    """
+    if not sercet:
+        sercet = current_app.config['JWT_SECRET']
+
+    try:
+        _payload = jwt.decode(token, sercet, algorithm='HS256')
+    except jwt.PyJWTError:
+        _payload = None
+
+    return _payload

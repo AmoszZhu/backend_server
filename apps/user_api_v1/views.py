@@ -5,6 +5,7 @@ from flask import request
 from apps.user_api_v1 import user_api_v1 as user_bp
 from apps.user_api_v1.model import User
 from apps import db
+from tools.token_util import generate_token
 
 
 @user_bp.route('/register', methods=["POST"])
@@ -117,9 +118,12 @@ def login():
         error_msg["msg"] = "Password is wrong, please try again"
         return error_msg, 200
 
+    token, refresh_token = generate_token(user.id)
+
     return {
         "data": {
-            "user": user.userName
+            "token": token,
+            "refresh_token": refresh_token
         },
         "response": "success",
         "msg": "0"
