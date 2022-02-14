@@ -30,7 +30,7 @@ def generate_jwt(payload, expire, sercet=None):
     return token
 
 
-def verify_token(token, sercet=None):
+def verify_jwt(token, sercet=None):
     """
 
     :param token:
@@ -41,8 +41,9 @@ def verify_token(token, sercet=None):
         sercet = current_app.config['JWT_SECRET']
 
     try:
-        _payload = jwt.decode(token, sercet, algorithm='HS256')
-    except jwt.PyJWTError:
+        _payload = jwt.decode(token, sercet, algorithms='HS256')
+    except jwt.PyJWTError as e:
+        print(e)
         _payload = None
 
     return _payload

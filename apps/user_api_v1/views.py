@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 
 
-from flask import request
+from flask import request, g
 from apps.user_api_v1 import user_api_v1 as user_bp
 from apps.user_api_v1.model import User
 from apps import db
 from tools.token_util import generate_token
+from tools.decorators import login_requeried
 
 
 @user_bp.route('/register', methods=["POST"])
@@ -60,12 +61,12 @@ def register_user():
         db.session.add(user)
         db.session.commit()
         return {
-            "data": {
-                "uid": user.id
-            },
-            "response": "successful",
-            "msg": "0"
-        }, 201
+                   "data": {
+                       "uid": user.id
+                   },
+                   "response": "successful",
+                   "msg": "0"
+               }, 201
     except Exception as e:
         print(e)
         error_msg["msg"] = "Add user fail"
@@ -128,3 +129,11 @@ def login():
         "response": "success",
         "msg": "0"
     }
+
+
+@user_bp.route('/test')
+@login_requeried
+def test():
+    print(g.user_id)
+
+    return "Demo"

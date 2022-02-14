@@ -2,10 +2,15 @@
 
 import os
 from apps import app
+from tools.middlewares import verify_token
+
+app.before_request(verify_token)
+
 
 @app.route('/')
 def home():
     return "Hello World"
+
 
 if __name__ == '__main__':
     app_host = os.environ.get("APP_HOST", "0.0.0.0")
