@@ -7,7 +7,7 @@ services:
     restart: always
     volumes:
       - ../backend_server:/server
-    command: python manage.py
+    command: uwsgi --ini /server/uwsgi.ini
     ports:
       - 59003:59003
     environment:
